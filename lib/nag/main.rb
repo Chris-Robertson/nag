@@ -13,13 +13,12 @@ class Nag
   def main
     repo_list.each do |r|
       repo = Rugged::Repository.new(r[:dir])
-      # days_since = time_diff(repo.last_commit.time)
-      days_since = 19
+      days_since = time_diff(repo.last_commit.time)
 
       next if days_since < DAYS_TO_NAG_AFTER
 
-      message = "It has been #{days_since} days since your last commit to #{repo.workdir}"
-      puts `echo #{message} | terminal-notifier -title Nag -sound glass -appIcon images/icon.png -contentImage image/icon.png`
+      message = "It has been #{days_since} days since your last commit to "
+      puts `terminal-notifier -message "#{message}\n#{repo.workdir}" -title Nag -sound glass -appIcon images/icon.png -contentImage image/icon.png`
       sleep 6
     end
   end
